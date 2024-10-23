@@ -1,101 +1,120 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState } from "react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Image,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Button,
+} from "@nextui-org/react";
+
+const recipes = {
+  chuleta: "Recipe for Chuleta: Marinate and grill until cooked through.",
+  tacos: "Recipe for Tacos: Fill tortillas with your favorite ingredients.",
+  pollo: "Recipe for Pollo: Season and roast until golden brown.",
+  lemonPie: "Recipe for Lemon Pie: Make crust, fill with lemon custard and bake.",
+  cafe: "Recipe for Cafe: Brew coffee and serve hot.",
+  helados: "Recipe for Helados: Blend ingredients and freeze until firm.",
+  bandeja: "Recipe for Bandeja Paisa: Serve with beans, rice, meat, and avocado.",
+  jugos: "Recipe for Jugos: Blend fresh fruits with water and sugar to taste.",
+};
+
+export default function App() {
+  const list = [
+    {
+      title: "chuleta",
+      img: "https://mandolina.co/wp-content/uploads/2024/03/chuleta-de-cerdo-glaseada-1080x550-1-1200x900.jpg",
+      price: "$5.50",
+    },
+    {
+      title: "tacos",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEyCMoWDQibIAbAOrdGghPN3df0ItePuj80A&s",
+      price: "$3.00",
+    },
+    {
+      title: "pollo",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeu9bNd9O49nZEjCrEu4Kb689Ii4vf1QvQAg&s",
+      price: "$10.00",
+    },
+    {
+      title: "lemonPie",
+      img: "https://www.vvsupremo.com/wp-content/uploads/2019/11/Dulce-Maria-de-Lim%C3%B3n-1.jpg",
+      price: "$5.30",
+    },
+    {
+      title: "cafe",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/1200px-A_small_cup_of_coffee.JPG",
+      price: "$15.70",
+    },
+    {
+      title: "helados",
+      img: "https://madridsalud.es/wp-content/uploads/2024/03/helados.webp",
+      price: "$8.00",
+    },
+    {
+      title: "bandeja",
+      img: "https://cdn.colombia.com/gastronomia/2011/08/02/bandeja-paisa-1616.gif",
+      price: "$7.50",
+    },
+    {
+      title: "jugos",
+      img: "https://irp.cdn-website.com/586fb047/dms3rep/multi/jugos+naturales.jpg",
+      price: "$12.20",
+    },
+  ];
+
+  const [selectedRecipe, setSelectedRecipe] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const handlePress = (title) => {
+    const recipe = recipes[title];
+    if (recipe) {
+      setSelectedRecipe(recipe);
+      setModalOpen(true);
+    } else {
+      console.error("No recipe found for:", title);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
+      {list.map((item, index) => (
+        <Card
+          shadow="sm"
+          key={index}
+          isPressable
+          onClick={() => handlePress(item.title)}
+        >
+          <CardBody className="overflow-visible p-0">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              shadow="sm"
+              radius="lg"
+              width="100%"
+              alt={item.title}
+              className="w-full object-cover h-[140px]"
+              src={item.img}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          </CardBody>
+          <CardFooter className="text-small justify-between">
+            <b>{item.title}</b>
+            <p className="text-default-500">{item.price}</p>
+          </CardFooter>
+        </Card>
+      ))}
+
+      {/* Modal para mostrar la receta */}
+      <Modal open={isModalOpen} onClose={() => setModalOpen(false)}>
+        <ModalHeader>Recipe</ModalHeader>
+        <ModalBody>{selectedRecipe}</ModalBody>
+        <ModalFooter>
+          <Button auto flat onClick={() => setModalOpen(false)}>Close</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }
